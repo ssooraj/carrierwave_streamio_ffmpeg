@@ -1,0 +1,69 @@
+module CarrierwaveStreamioFfmpeg
+  class Options
+
+    def video_options(file, opts = {})
+      opts[:resolution]    = set_file_resolution(opts, file)
+      opts[:video_bitrate] = set_file_quality(opts, file)
+      opts[:threads] = 4
+      format = opts(:format)
+      opts = opts.except(:quality, :preserve_aspect_ratio, :format)
+      opts.merge!(codec(format))
+    end
+
+    def set_file_quality(opts, file)
+      case opts[:quality]
+        when :low
+          1250
+        when :med
+          5000
+        when :high
+          15000
+        else
+          (file.bitrate)/1024
+      end
+    end
+
+    def set_file_resolution(opts, file)
+      case opts[:resolution]
+        when :p240
+          '352 x 240'
+        when :p360
+          '480 x 360'
+        when :p480
+          '858 x 480'
+        when :p720
+          '1280 x 720'
+        when :p1080
+          '1920 x 1080'
+        when :p2160
+          '3860 x 2160'
+        else
+          file.resolution
+      end
+    end
+
+    def codec(format)
+      case format
+        when :mp4
+          { video_codec: 'libx264',
+            audio_codec: 'libvo_aacenc' }
+        when :webm
+          { video_codec: 'libvpx',
+            audio_codec: 'libvorbis' }
+        when :ogv
+          { video_codec: 'libtheora',
+            audio_codec: 'libvorbis' }
+        else
+          raise CarrierWave::ProcessingError.new("Unsupported video format. Error: #{e}")
+      end
+    end
+
+    def transcoder_options(opts)
+      if opts[:preserve_aspect_ratio]
+        { preserve_aspect_ratio: opts[:preserve_aspect_ratio] }
+      else
+        { preserve_aspect_ratio: :height }
+      end
+    end
+  end
+end
