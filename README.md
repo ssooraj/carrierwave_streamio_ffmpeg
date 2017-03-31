@@ -1,9 +1,3 @@
-# CarrierwaveStreamioFfmpeg
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/carrierwave_streamio_ffmpeg`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -22,17 +16,30 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+In the Rails app/uploaders/filename.rb, call the encode function with options.
+Example : 
 
-## Development
+    version :mp4 do
+     version :p480 do
+       process encode: [{format :mp4, resolution: :p480, quality: :low, preserve_aspect_ratio: :width}]
+     end
+ 
+     def full_filename(for_file)
+       super.chomp(File.extname(super)) + '.mp4'
+     end
+    end
+    
+The options are passed as hash to this function, can be also empty.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+The options are:
+* format - format of the output video,  possible options are mp4, webm and ogv
+* resolution - resolution if output file, possible values are p240, p360, p480, p720, p1080 and p2160
+* quality - Quality of the file to be saved, possible values are low, med, and high.
+* preserve_aspect_ratio - value to be preserved when correcting aspect ration, possible values :width and :height.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/carrierwave_streamio_ffmpeg. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ssooraj/carrierwave_streamio_ffmpeg. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
