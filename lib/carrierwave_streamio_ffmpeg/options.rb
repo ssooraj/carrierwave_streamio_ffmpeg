@@ -5,7 +5,7 @@ module CarrierwaveStreamioFfmpeg
       opts[:resolution]    = set_file_resolution(opts, file)
       opts[:video_bitrate] = set_file_quality(opts, file)
       opts[:threads] = 4
-      format = opts(:format)
+      format = opts[:format]
       opts = opts.except(:quality, :preserve_aspect_ratio, :format)
       opts.merge!(codec(format))
     end
@@ -54,13 +54,13 @@ module CarrierwaveStreamioFfmpeg
           { video_codec: 'libtheora',
             audio_codec: 'libvorbis' }
         else
-          raise CarrierWave::ProcessingError.new("Unsupported video format. Error: #{e}")
+          raise CarrierWave::ProcessingError.new('Unsupported video format.')
       end
     end
 
-    def transcoder_options(opts)
-      if opts[:preserve_aspect_ratio]
-        { preserve_aspect_ratio: opts[:preserve_aspect_ratio] }
+    def transcoder_options(preserve_aspect_ratio)
+      if preserve_aspect_ratio
+        { preserve_aspect_ratio: preserve_aspect_ratio }
       else
         { preserve_aspect_ratio: :height }
       end

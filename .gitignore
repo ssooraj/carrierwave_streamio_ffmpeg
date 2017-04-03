@@ -10,3 +10,9 @@
 
 # rspec failure tracking
 .rspec_status
+/.idea/.rakeTasks
+/.idea/carrierwave_streamio_ffmpeg.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/workspace.xml
+/carrierwave_streamio_ffmpeg-0.0.1.gem
