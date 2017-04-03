@@ -20,14 +20,25 @@ Or install it yourself as:
 In the Rails app/uploaders/filename.rb, call the encode function with options.
 Example : 
 
-    version :mp4 do
-     version :p480 do
-       process encode: [{format :mp4, resolution: :p480, quality: :low, preserve_aspect_ratio: :width}]
-     end
- 
-     def full_filename(for_file)
-       super.chomp(File.extname(super)) + '.mp4'
-     end
+    class VideoUploader < CarrierWave::Uploader::Base
+      include CarrierWave::Video
+      include CarrierwaveStreamioFfmpeg
+    
+      storage :file
+    
+      def store_dir
+        "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+      end
+       
+      version :mp4 do
+        version :p480 do
+          process encode: [{format: :mp4, resolution: :p480, quality: :med, preserve_aspect_ratio: :width}]
+        end
+    
+        def full_filename(for_file)
+          super.chomp(File.extname(super)) + '.mp4'
+        end
+      end
     end
     
 The options are passed as hash to this function, can be also empty.
