@@ -54,7 +54,21 @@ module CarrierwaveStreamioFfmpeg
           { video_codec: 'libtheora',
             audio_codec: 'libvorbis' }
         else
-          raise CarrierWave::ProcessingError.new('Unsupported video format.')
+          { video_codec: 'libx264',
+            audio_codec: 'libvo_aacenc' }
+      end
+    end
+
+    def file_type(format)
+      case format
+        when :mp4
+          'mp4'
+        when :webm
+          '.webm'
+        when :ogv
+          '.ogv'
+        else
+          '.mp4'
       end
     end
 
