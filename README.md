@@ -46,7 +46,7 @@ The options are passed as hash to this function, can be also empty.
 The options are:
 * format - format of the output video,  possible options are mp4, webm and ogv
 * resolution - resolution if output file, possible values are p240, p360, p480, p720, p1080 and p2160
-* quality - Quality of the file to be saved, possible values are low, med, and high.
+* quality - Quality of the file to be saved, possible values are very_low, low, med, high and very_high.
 * preserve_aspect_ratio - value to be preserved when correcting aspect ration, possible values :width and :height.
 
 ## Contributing

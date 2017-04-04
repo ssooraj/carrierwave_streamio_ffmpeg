@@ -6,7 +6,7 @@ module CarrierwaveStreamioFfmpeg
       opts[:video_bitrate] = set_video_quality(opts, file)
       opts[:frame_rate] = set_video_frames(opts, file)
       opts[:audio_bitrate] = set_audio_quality(opts, file)
-      opts[:threads] = 8
+      opts[:threads] = 1
       format = opts[:format]
       opts = opts.except(:quality, :preserve_aspect_ratio, :format)
       opts.merge!(codec(format))
@@ -14,11 +14,15 @@ module CarrierwaveStreamioFfmpeg
 
     def set_video_frames(opts, file)
       case opts[:quality]
+        when :very_low
+          15
         when :low
-          25
+          24
         when :med
-          30
+          25
         when :high
+          30
+        when :very_high
           60
         else
           file.frame_rate
@@ -27,12 +31,16 @@ module CarrierwaveStreamioFfmpeg
 
     def set_audio_quality(opts, file)
       case opts[:quality]
+        when :very_low
+          64
         when :low
           96
         when :med
           128
         when :high
           256
+        when :very_high
+          320
         else
           (file.audio_bitrate)/100
       end
@@ -40,11 +48,15 @@ module CarrierwaveStreamioFfmpeg
 
     def set_video_quality(opts, file)
       case opts[:quality]
+        when :very_low
+          128
         when :low
-          1250
+          384
         when :med
-          5000
+          1250
         when :high
+          5000
+        when :very_high
           15000
         else
           (file.video_bitrate)/100
