@@ -74,7 +74,7 @@ module CarrierwaveStreamioFfmpeg
       case format
         when :mp4
           { video_codec: 'libx264',
-            audio_codec: 'libvo_aacenc' }
+            audio_codec: 'ac3' }
         when :webm
           { video_codec: 'libvpx',
             audio_codec: 'libvorbis' }
